@@ -1,8 +1,6 @@
 package JOGL;
 
 import java.awt.event.*;
-import java.nio.file.Paths;
-
 import Environment.Skybox;
 import Utils.TextureLoader;
 import com.jogamp.opengl.*;
@@ -15,7 +13,6 @@ public class JoglEventListener implements GLEventListener{
     private int windowWidth, windowHeight;
     int[] vPort = new int[4];
     //Class to load texture and texture for Environment.Skybox
-    private TextureLoader texture_loader = null;
     private Skybox current_skybox = null;
     private final float skybox_size = 500.0f;
     private final String skybox_name = "";
@@ -29,15 +26,12 @@ public class JoglEventListener implements GLEventListener{
     public static float look_y = 0;
     public static float look_z = 0;
     public static float offset = 8.0f;
-    private int mode = 0;
+    public static int mode = 0;
     //camera speed
     public final static float rot_speed = 128.0f;
     public final static float mv_speed = 0.4f;
 
     private static GLU glu = new GLU();
-
-
-    public void displayChanged( GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged) { }
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -49,7 +43,7 @@ public class JoglEventListener implements GLEventListener{
         gl.glDepthFunc( GL.GL_LEQUAL );
         gl.glEnable( GL.GL_TEXTURE_2D );
         // Initialize the texture loader and skybox.
-        current_skybox = new Skybox( texture_loader, skybox_name);
+        current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
         keyboard = new Keyboard();
@@ -117,7 +111,6 @@ public class JoglEventListener implements GLEventListener{
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
-        drawCube(gl);
         gl.glTranslatef(pos_x, pos_y, 0);
         current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
@@ -146,83 +139,5 @@ public class JoglEventListener implements GLEventListener{
 
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
-
-    public void drawCube(final GL2 gl) {
-    /*    float scale = 10f;
-        int texture[] = new int[1];
-        String PATH_TO_TEXTURE = Paths.get(".\\Textures").toAbsolutePath().normalize().toString() + "\\UKY.jpg";
-
-        try {
-            texture_loader.loadTexture(texture[0], PATH_TO_TEXTURE, false);
-        }catch(Throwable t)
-        {
-            System.err.println("Could not bind texture: "+ t.getMessage());
-        }
-
-        gl.glBindTexture(GL.GL_TEXTURE_2D, texture[0]);
-        gl.glBegin(GL2.GL_QUADS);
-
-        // on the XY plane
-        // front plane
-        gl.glNormal3f(0,  0, 1);
-        gl.glColor3f(1, 0, 0);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(1*scale, 1*scale, 1*scale);
-
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(1, 1*scale, 1*scale);
-
-        gl.glTexCoord2f(98.0f/255, 136.0f/255);
-        // back plane
-        gl.glNormal3f(0,  0, -1);
-        gl.glColor3f(1, 0, 0);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glVertex3f(1, 1*scale, 1);
-
-        // on the YZ plane
-        // left plane
-        gl.glNormal3f(-1,  0, 0);
-        gl.glColor3f(0, 1, 0);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1, 1*scale, 1);
-        gl.glVertex3f(1, 1*scale, 1*scale);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        // right plane
-        gl.glNormal3f(1,  0, 0);
-        gl.glColor3f(0, 1, 0);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1*scale);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-
-
-        // on the XZ plane,
-        // up plane;
-        gl.glNormal3f(0,  1, 0);
-        gl.glColor3f(0, 0, 1);
-        gl.glTexCoord2f(0+0.2f, 1-(1-0.2f));gl.glVertex3f(1, 1*scale, 1);
-        gl.glTexCoord2f(1-0.2f, 1-(1-0.2f));gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glTexCoord2f(1-0.2f, 1-(0 + 0.2f));gl.glVertex3f(1*scale, 1*scale, 1*scale);
-        gl.glTexCoord2f(0+0.2f, 1-(0 + 0.2f));gl.glVertex3f(1, 1*scale, 1*scale);
-
-        // down plane;
-        gl.glNormal3f(0,  -1, 0);
-        gl.glColor3f(0, 0, 1);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        gl.glEnd();*/
-    }
 
 }
