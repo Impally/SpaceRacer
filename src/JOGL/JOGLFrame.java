@@ -50,8 +50,6 @@ class JOGLFrame implements GLEventListener {
         gl.glDepthFunc( GL.GL_LEQUAL );
         gl.glEnable( GL.GL_TEXTURE_2D );
         // Initialize the texture loader and skybox.
-        texture_loader = new TextureLoader( gl );
-        current_skybox = new Skybox( texture_loader, skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
         keyboard = new Keyboard();

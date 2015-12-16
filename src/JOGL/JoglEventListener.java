@@ -49,7 +49,6 @@ public class JoglEventListener implements GLEventListener{
         gl.glDepthFunc( GL.GL_LEQUAL );
         gl.glEnable( GL.GL_TEXTURE_2D );
         // Initialize the texture loader and skybox.
-        texture_loader = new TextureLoader( gl );
         current_skybox = new Skybox( texture_loader, skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
@@ -149,7 +148,7 @@ public class JoglEventListener implements GLEventListener{
     public void dispose(GLAutoDrawable glAutoDrawable) {}
 
     public void drawCube(final GL2 gl) {
-        float scale = 10f;
+    /*    float scale = 10f;
         int texture[] = new int[1];
         String PATH_TO_TEXTURE = Paths.get(".\\Textures").toAbsolutePath().normalize().toString() + "\\UKY.jpg";
 
@@ -223,7 +222,7 @@ public class JoglEventListener implements GLEventListener{
         gl.glVertex3f(1*scale, 1, 1*scale);
         gl.glVertex3f(1, 1, 1*scale);
 
-        gl.glEnd();
+        gl.glEnd();*/
     }
 
 }
