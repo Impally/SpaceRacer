@@ -1,44 +1,40 @@
+package JOGL;
+
 import java.awt.event.*;
 import java.nio.file.Paths;
 
 import Environment.Skybox;
-import Environment.TextureLoader;
+import Utils.TextureLoader;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
+import input.Keyboard.Keyboard;
 
-public class JoglEventListener implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
+public class JoglEventListener implements GLEventListener{
     //Window Variables
     private int windowWidth, windowHeight;
     int[] vPort = new int[4];
     //Class to load texture and texture for Environment.Skybox
     private TextureLoader texture_loader = null;
     private Skybox current_skybox = null;
-    private Ground current_ground = null;
-    private Compass compass = null;
     private final float skybox_size = 500.0f;
     private final String skybox_name = "";
+    Keyboard keyboard = null;
 
     // Camera variables
-    private float pos_x = -20;
-    private float pos_y = -20;
-    private float pos_z = 10;
-    private float look_x = 0;
-    private float look_y = 0;
-    private float look_z = 0;
-    private float offset = 8.0f;
+    public static float pos_x = -20;
+    public static float pos_y = -20;
+    public static float pos_z = 10;
+    public static float look_x = 0;
+    public static float look_y = 0;
+    public static float look_z = 0;
+    public static float offset = 8.0f;
     private int mode = 0;
     //camera speed
-    final float rot_speed = 128.0f;
-    final float mv_speed = 0.4f;
+    public final static float rot_speed = 128.0f;
+    public final static float mv_speed = 0.4f;
 
-    //mouse variables
-    private int mouse_x0 = 0;
-    private int mouse_y0 = 0;
-
-    private boolean[] keys = new boolean[256];
-
-    private GLU glu = new GLU();
+    private static GLU glu = new GLU();
 
 
     public void displayChanged( GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged) { }
@@ -52,16 +48,12 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
         gl.glEnable( GL.GL_DEPTH_TEST );
         gl.glDepthFunc( GL.GL_LEQUAL );
         gl.glEnable( GL.GL_TEXTURE_2D );
-
-
         // Initialize the texture loader and skybox.
         texture_loader = new TextureLoader( gl );
         current_skybox = new Skybox( texture_loader, skybox_name);
-        current_ground = new Ground(texture_loader);
-        compass = new Compass(texture_loader);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
-
+        keyboard = new Keyboard();
     }
 
     @Override
@@ -91,28 +83,28 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
 
 
         // Update the camera state.
-        if ( keys[KeyEvent.VK_W] || keys[KeyEvent.VK_S] ) {
+        if ( keyboard.keys[KeyEvent.VK_W] || keyboard.keys[KeyEvent.VK_S] ) {
             float normxy = (float) Math.sqrt( look_x * look_x + look_y * look_y );
-            float multiplier = keys[KeyEvent.VK_W] ? 1.0f : -1.0f;
+            float multiplier = keyboard.keys[KeyEvent.VK_W] ? 1.0f : -1.0f;
             pos_x += look_x / normxy * mv_speed * multiplier;
             pos_y += look_y / normxy * mv_speed * multiplier;
         }
 
-        if ( keys[KeyEvent.VK_R] ) {
+        if ( keyboard.keys[KeyEvent.VK_R] ) {
             pos_z += mv_speed;
             if (pos_z > 50) pos_z = 50;
-        } else if ( keys[KeyEvent.VK_F] ) {
+        } else if ( keyboard.keys[KeyEvent.VK_F] ) {
             pos_z -= mv_speed;
             if (pos_z < 0.1) pos_z = 0.1f;
         }
 
-        if ( keys[KeyEvent.VK_A] || keys[KeyEvent.VK_D] ) {
+        if ( keyboard.keys[KeyEvent.VK_A] || keyboard.keys[KeyEvent.VK_D] ) {
             float theta = (float) Math.atan2( look_y, look_x );
             float phi = (float) Math.acos( look_z );
 
-            if ( keys[KeyEvent.VK_A] )
+            if ( keyboard.keys[KeyEvent.VK_A] )
                 theta += Math.PI / 2.0;
-            else if ( keys[KeyEvent.VK_D] )
+            else if ( keyboard.keys[KeyEvent.VK_D] )
                 theta -= Math.PI / 2.0;
 
             float strafe_x = (float)( Math.cos( theta ) * Math.sin( phi ) );
@@ -126,14 +118,10 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
-        current_ground.draw(gl, 1000, pos_x, pos_y);
         drawCube(gl);
         gl.glTranslatef(pos_x, pos_y, 0);
         current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
-        glEnable2D(gl);
-        compass.draw(gl, windowWidth, windowHeight);
-        glDisable2D(gl);
     }
 
     void glEnable2D(GL2 gl)
@@ -156,93 +144,6 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
         gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
         gl.glPopMatrix();
     }
-
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        if(KeyEvent.VK_ESCAPE == e.getKeyChar())
-        {
-            System.exit(0);
-        }
-
-        //Key was pressed, set to true
-        keys[ e.getKeyCode()] = true;
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //key was released, set to false
-        keys[e.getKeyCode()] = false;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        mouse_x0 = e.getX();
-        mouse_y0 = e.getY();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        float dX = x - mouse_x0;
-        float dY = y - mouse_y0;
-        float phi = (float) Math.acos( look_z );
-        float theta = (float) Math.atan2( look_y, look_x );
-
-        theta -= dX / rot_speed;
-        phi += dY / rot_speed;
-
-        if ( theta >= Math.PI * 2.0 )
-            theta -= Math.PI * 2.0;
-        else if ( theta < 0 )
-            theta += Math.PI * 2.0;
-
-        if ( phi > Math.PI - 0.1 )
-            phi = (float)( Math.PI - 0.1 );
-        else if ( phi < 0.1f )
-            phi = 0.1f;
-
-        look_x = (float)( Math.cos( theta ) * Math.sin( phi ) );
-        look_y = (float)( Math.sin( theta ) * Math.sin( phi ) );
-        look_z = (float)( Math.cos( phi ) );
-
-        mouse_x0 = x;
-        mouse_y0 = y;
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
 
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}

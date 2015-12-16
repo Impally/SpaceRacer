@@ -1,7 +1,7 @@
 /**
  * Created by Rodger on 11/3/2015.
  */
-import Environment.TextureLoader;
+import Utils.TextureLoader;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2GL3;

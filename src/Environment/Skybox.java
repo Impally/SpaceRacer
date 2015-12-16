@@ -1,5 +1,6 @@
 package Environment;
 
+import Utils.TextureLoader;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2GL3;

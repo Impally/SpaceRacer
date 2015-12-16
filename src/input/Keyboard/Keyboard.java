@@ -9,15 +9,15 @@ import input.state.State;
  */
 public class Keyboard implements KeyListener {
     private static final int KEY_COUNT = 256;
-    private boolean[] keysActive;
-    private State[] States;
+    public static boolean[] keys;
+    private static State[] States;
 
     /**
      * Constructor
      */
     public Keyboard() {
         States = new State[KEY_COUNT];
-        keysActive = new boolean[KEY_COUNT];
+        keys = new boolean[KEY_COUNT];
 
         for (int i = 0; i < KEY_COUNT; i++) {
             States[i] = State.RELEASED;
@@ -29,7 +29,7 @@ public class Keyboard implements KeyListener {
      */
     public synchronized void poll() {
         for (int i = 0; i < KEY_COUNT; i++) {
-            if (keysActive[i]) {
+            if (keys[i]) {
                 State currentState = States[i];
                 if (currentState == State.RELEASED) {
                     States[i] = State.ONCE;
@@ -46,9 +46,9 @@ public class Keyboard implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
 
-        if (keyCode > 0 && keyCode < KEY_COUNT) {
-            keysActive[keyCode] = true;
-        }
+        if(KeyEvent.VK_ESCAPE == e.getKeyChar())
+        {System.exit(0);}else if (keyCode > 0 && keyCode < KEY_COUNT) {keys[keyCode] = true;}
+
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Keyboard implements KeyListener {
         int keyCode = e.getKeyCode();
 
         if (keyCode > 0 && keyCode < KEY_COUNT) {
-            keysActive[keyCode] = false;
+            keys[keyCode] = false;
         }
     }
 

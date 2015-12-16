@@ -2,6 +2,7 @@
  * Created by Rodger on 11/3/2015.
  */
 
+import JOGL.JoglEventListener;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.awt.GLCanvas;
 
@@ -39,10 +40,11 @@ public class Main extends JFrame{
 
         JoglEventListener jgl = new JoglEventListener();
         Keyboard keyboard = new Keyboard();
+        Mouse mouse = new Mouse();
         canvas.addGLEventListener(jgl);
         canvas.addKeyListener(keyboard);
-        canvas.addMouseListener(jgl);
-        canvas.addMouseMotionListener(jgl);
+        canvas.addMouseListener(mouse);
+        canvas.addMouseMotionListener(mouse);
 
         animator = new Animator(canvas);
         animator.start();
