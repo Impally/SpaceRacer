@@ -1,3 +1,5 @@
+package Environment;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;

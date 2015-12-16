@@ -1,3 +1,5 @@
+package Environment;
+
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2GL3;
@@ -16,7 +18,7 @@ public class Skybox {
     private String skybox_name = null;
     private int[] textures = new int[ NUM_FACES ];
 
-    public Skybox( TextureLoader texture_loader, String skybox_name ) {
+    public Skybox(TextureLoader texture_loader, String skybox_name ) {
         this.texture_loader = texture_loader;
         this.skybox_name = skybox_name;
         loadTextures();

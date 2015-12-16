@@ -1,25 +1,24 @@
-/**
- * Created by rodge on 12/16/2015.
- */
-
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.nio.file.Paths;
 
+import Environment.Skybox;
+import Environment.TextureLoader;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
-import javax.swing.JOptionPane;
 
 public class JoglEventListener implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
-
     //Window Variables
     private int windowWidth, windowHeight;
     int[] vPort = new int[4];
-    //Class to load texture and texture for Skybox
+    //Class to load texture and texture for Environment.Skybox
     private TextureLoader texture_loader = null;
     private Skybox current_skybox = null;
+    private Ground current_ground = null;
+    private Compass compass = null;
     private final float skybox_size = 500.0f;
+    private final String skybox_name = "";
+
     // Camera variables
     private float pos_x = -20;
     private float pos_y = -20;
@@ -32,11 +31,15 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
     //camera speed
     final float rot_speed = 128.0f;
     final float mv_speed = 0.4f;
+
     //mouse variables
     private int mouse_x0 = 0;
     private int mouse_y0 = 0;
+
     private boolean[] keys = new boolean[256];
+
     private GLU glu = new GLU();
+
 
     public void displayChanged( GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged) { }
 
@@ -49,16 +52,32 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
         gl.glEnable( GL.GL_DEPTH_TEST );
         gl.glDepthFunc( GL.GL_LEQUAL );
         gl.glEnable( GL.GL_TEXTURE_2D );
+
+
         // Initialize the texture loader and skybox.
         texture_loader = new TextureLoader( gl );
-        current_skybox = new Skybox( texture_loader, "");
+        current_skybox = new Skybox( texture_loader, skybox_name);
+        current_ground = new Ground(texture_loader);
+        compass = new Compass(texture_loader);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
+
     }
 
     @Override
-    public void dispose(GLAutoDrawable glAutoDrawable) {
+    public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
+        windowWidth = width;
+        windowHeight = height > 0 ? height : 1;
+        vPort[0] = 0;
+        vPort[1] = 0;
+        vPort[2] = windowWidth;
+        vPort[3] = windowHeight;
+        final GL2 gl = glAutoDrawable.getGL().getGL2();
 
+        gl.glViewport( 0, 0, width, height );
+        gl.glMatrixMode( GLMatrixFunc.GL_PROJECTION );
+        gl.glLoadIdentity();
+        glu.gluPerspective( 60.0f, (float) windowWidth / windowHeight, 0.1f, skybox_size * (float) Math.sqrt( 3.0 ) / 2.0f );
     }
 
     @Override
@@ -107,25 +126,37 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
+        current_ground.draw(gl, 1000, pos_x, pos_y);
+        drawCube(gl);
         gl.glTranslatef(pos_x, pos_y, 0);
         current_skybox.draw(gl, skybox_size);
+        gl.glPopMatrix();
+        glEnable2D(gl);
+        compass.draw(gl, windowWidth, windowHeight);
+        glDisable2D(gl);
     }
 
-    @Override
-    public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
-        windowWidth = width;
-        windowHeight = height > 0 ? height : 1;
-        vPort[0] = 0;
-        vPort[1] = 0;
-        vPort[2] = windowWidth;
-        vPort[3] = windowHeight;
-        final GL2 gl = glAutoDrawable.getGL().getGL2();
+    void glEnable2D(GL2 gl)
+    {
 
-        gl.glViewport( 0, 0, width, height );
-        gl.glMatrixMode( GLMatrixFunc.GL_PROJECTION );
+        gl.glMatrixMode(gl.GL_PROJECTION);
+        gl.glPushMatrix();
         gl.glLoadIdentity();
-        glu.gluPerspective( 60.0f, (float) windowWidth / windowHeight, 0.1f, skybox_size * (float) Math.sqrt( 3.0 ) / 2.0f );
+
+        gl.glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
+        gl.glMatrixMode(gl.GL_MODELVIEW);
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
     }
+
+    void glDisable2D(GL2 gl)
+    {
+        gl.glMatrixMode(gl.GL_PROJECTION);
+        gl.glPopMatrix();
+        gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+        gl.glPopMatrix();
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -134,7 +165,12 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(KeyEvent.VK_ESCAPE == e.getKeyChar()) {System.exit(0);}
+
+        if(KeyEvent.VK_ESCAPE == e.getKeyChar())
+        {
+            System.exit(0);
+        }
+
         //Key was pressed, set to true
         keys[ e.getKeyCode()] = true;
     }
@@ -199,10 +235,94 @@ public class JoglEventListener implements GLEventListener, KeyListener, MouseLis
 
         mouse_x0 = x;
         mouse_y0 = y;
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
+
+
+    @Override
+    public void dispose(GLAutoDrawable glAutoDrawable) {}
+
+    public void drawCube(final GL2 gl) {
+        float scale = 10f;
+        int texture[] = new int[1];
+        String PATH_TO_TEXTURE = Paths.get(".\\Textures").toAbsolutePath().normalize().toString() + "\\UKY.jpg";
+
+        try {
+            texture_loader.loadTexture(texture[0], PATH_TO_TEXTURE, false);
+        }catch(Throwable t)
+        {
+            System.err.println("Could not bind texture: "+ t.getMessage());
+        }
+
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture[0]);
+        gl.glBegin(GL2.GL_QUADS);
+
+        // on the XY plane
+        // front plane
+        gl.glNormal3f(0,  0, 1);
+        gl.glColor3f(1, 0, 0);
+        gl.glTexCoord2f(0.0f, 1.0f);
+        gl.glVertex3f(1, 1, 1*scale);
+
+        gl.glTexCoord2f(1.0f, 1.0f);
+        gl.glVertex3f(1*scale, 1, 1*scale);
+
+        gl.glTexCoord2f(1.0f, 0.0f);
+        gl.glVertex3f(1*scale, 1*scale, 1*scale);
+
+        gl.glTexCoord2f(0.0f, 0.0f);
+        gl.glVertex3f(1, 1*scale, 1*scale);
+
+        gl.glTexCoord2f(98.0f/255, 136.0f/255);
+        // back plane
+        gl.glNormal3f(0,  0, -1);
+        gl.glColor3f(1, 0, 0);
+        gl.glVertex3f(1, 1, 1);
+        gl.glVertex3f(1*scale, 1, 1);
+        gl.glVertex3f(1*scale, 1*scale, 1);
+        gl.glVertex3f(1, 1*scale, 1);
+
+        // on the YZ plane
+        // left plane
+        gl.glNormal3f(-1,  0, 0);
+        gl.glColor3f(0, 1, 0);
+        gl.glVertex3f(1, 1, 1);
+        gl.glVertex3f(1, 1*scale, 1);
+        gl.glVertex3f(1, 1*scale, 1*scale);
+        gl.glVertex3f(1, 1, 1*scale);
+
+        // right plane
+        gl.glNormal3f(1,  0, 0);
+        gl.glColor3f(0, 1, 0);
+        gl.glVertex3f(1*scale, 1, 1);
+        gl.glVertex3f(1*scale, 1*scale, 1);
+        gl.glVertex3f(1*scale, 1*scale, 1*scale);
+        gl.glVertex3f(1*scale, 1, 1*scale);
+
+
+        // on the XZ plane,
+        // up plane;
+        gl.glNormal3f(0,  1, 0);
+        gl.glColor3f(0, 0, 1);
+        gl.glTexCoord2f(0+0.2f, 1-(1-0.2f));gl.glVertex3f(1, 1*scale, 1);
+        gl.glTexCoord2f(1-0.2f, 1-(1-0.2f));gl.glVertex3f(1*scale, 1*scale, 1);
+        gl.glTexCoord2f(1-0.2f, 1-(0 + 0.2f));gl.glVertex3f(1*scale, 1*scale, 1*scale);
+        gl.glTexCoord2f(0+0.2f, 1-(0 + 0.2f));gl.glVertex3f(1, 1*scale, 1*scale);
+
+        // down plane;
+        gl.glNormal3f(0,  -1, 0);
+        gl.glColor3f(0, 0, 1);
+        gl.glVertex3f(1, 1, 1);
+        gl.glVertex3f(1*scale, 1, 1);
+        gl.glVertex3f(1*scale, 1, 1*scale);
+        gl.glVertex3f(1, 1, 1*scale);
+
+        gl.glEnd();
+    }
+
 }
