@@ -35,7 +35,7 @@ public class JOGLObject {
         return;
     }
 
-    public void draw(final GL2 gl) {
+    public void draw(GL2 gl) {
         if (drawPairs != null) {
             gl.glPushMatrix();
             gl.glTranslatef(50f, 0f, 50f);

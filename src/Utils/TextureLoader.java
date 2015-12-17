@@ -12,7 +12,6 @@ public class TextureLoader{
         Texture texture = null;
         try {
             texture = TextureIO.newTexture(file, true);
-            System.out.println("Loaded " + texture + " from file: " + file);
         } catch (GLException | IOException e) {
             System.err.println("Failed opening texture file: " + file);
             e.printStackTrace();
