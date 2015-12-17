@@ -13,7 +13,7 @@ public class Player {
     public static GLModel Spaceship = null;
     public static Boolean loadModels(GL2 gl) {
         Spaceship = ModelLoaderOBJ.LoadModel(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Wraith_Raider_Starship.obj",
-                Paths.get("\\Models").toAbsolutePath().normalize().toString() + "\\Wraith_Raider_Starship.mtl", gl);
+                Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Wraith_Raider_Starship.mtl", gl);
         if (Spaceship == null) {
             return false;
         }

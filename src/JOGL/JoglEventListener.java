@@ -117,11 +117,11 @@ public class JoglEventListener implements GLEventListener{
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
-        drawCube(gl);
         gl.glTranslatef(0,0,-1);
-        Player.drawPlayer(gl);
         gl.glTranslatef(pos_x, pos_y, 0);
         current_skybox.draw(gl, skybox_size);
+        gl.glScaled(0.1f,0.1f,0.1f);
+        Player.drawPlayer(gl);
         gl.glPopMatrix();
     }
 
@@ -148,79 +148,5 @@ public class JoglEventListener implements GLEventListener{
 
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
-
-    public void drawCube(GL2 gl) {
-        float scale = 10f;
-        int texture[] = new int[1];
-        String PATH_TO_TEXTURE = Paths.get(".\\Textures").toAbsolutePath().normalize().toString() + "\\UKY.jpg";
-        Texture tex = null;
-        try {
-            tex = TextureLoader.loadTexture(new File(PATH_TO_TEXTURE));
-        }catch(Throwable t)
-        {
-            System.err.println("Could not bind texture: "+ t.getMessage());
-        }
-
-        tex.enable(gl);
-        tex.bind(gl);
-        gl.glBegin(GL2.GL_QUADS);
-
-        // on the XY plane
-        // front plane
-        gl.glNormal3f(0,  0, 1);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(1*scale, 1*scale, 1*scale);
-
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(1, 1*scale, 1*scale);
-
-        gl.glTexCoord2f(98.0f/255, 136.0f/255);
-        // back plane
-        gl.glNormal3f(0,  0, -1);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glVertex3f(1, 1*scale, 1);
-
-        // on the YZ plane
-        // left plane
-        gl.glNormal3f(-1,  0, 0);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1, 1*scale, 1);
-        gl.glVertex3f(1, 1*scale, 1*scale);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        // right plane
-        gl.glNormal3f(1,  0, 0);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glVertex3f(1*scale, 1*scale, 1*scale);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-
-
-        // on the XZ plane,
-        // up plane;
-        gl.glNormal3f(0,  1, 0);
-        gl.glTexCoord2f(0+0.2f, 1-(1-0.2f));gl.glVertex3f(1, 1*scale, 1);
-        gl.glTexCoord2f(1-0.2f, 1-(1-0.2f));gl.glVertex3f(1*scale, 1*scale, 1);
-        gl.glTexCoord2f(1-0.2f, 1-(0 + 0.2f));gl.glVertex3f(1*scale, 1*scale, 1*scale);
-        gl.glTexCoord2f(0+0.2f, 1-(0 + 0.2f));gl.glVertex3f(1, 1*scale, 1*scale);
-
-        // down plane;
-        gl.glNormal3f(0,  -1, 0);
-        gl.glVertex3f(1, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1);
-        gl.glVertex3f(1*scale, 1, 1*scale);
-        gl.glVertex3f(1, 1, 1*scale);
-
-        gl.glEnd();
-        tex.disable(gl);
-    }
 
 }

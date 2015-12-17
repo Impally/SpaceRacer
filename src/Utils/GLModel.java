@@ -1,9 +1,12 @@
 package Utils;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.util.texture.Texture;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 public class GLModel{
 
@@ -257,7 +260,7 @@ public class GLModel{
 		/// With Materials if available ////////
 		////////////////////////////////////////
 		this.objectlist = gl.glGenLists(1);
-		
+		Texture tex = null;
 		int nextmat = -1;
 		int matcount = 0;
 		int totalmats = mattimings.size();
@@ -270,11 +273,19 @@ public class GLModel{
 			nextmat = Integer.parseInt(nextmatnamearray[1]);
 		}
 
-		gl.glNewList(objectlist,GL2.GL_COMPILE);
+        gl.glNewList(objectlist,GL2.GL_COMPILE);
 		for (int i=0;i<faces.size();i++) {
+            Boolean isTextured = false;
 			if (i == nextmat) {
 					gl.glEnable(GL2.GL_COLOR_MATERIAL);
 					gl.glColor4f((materials.getKd(nextmatname))[0],(materials.getKd(nextmatname))[1],(materials.getKd(nextmatname))[2],(materials.getd(nextmatname)));
+                    isTextured = (materials.getMap(nextmatname) != null);
+                    System.out.println(isTextured);
+                    if(isTextured) {
+                        tex = TextureLoader.loadTexture(new File(Paths.get(".\\Models\\").toAbsolutePath().normalize().toString() + materials.getMap(nextmatname)));
+                        tex.enable(gl);
+                        tex.bind(gl);
+                    }
 				matcount++;
 				if (matcount < totalmats) {
 					nextmatnamearray = (String[])(mattimings.get(matcount));
@@ -323,7 +334,12 @@ public class GLModel{
 			
 			//// Quad End Footer /////
 			gl.glEnd();
+            if(isTextured)
+            {
+                tex.disable(gl);
+            }
 			///////////////////////////
+
 			
 			
 		}
