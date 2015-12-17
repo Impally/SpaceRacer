@@ -17,6 +17,7 @@ public class Player {
     public static Texture temp = null;
 
     public static Boolean loadModels(GL2 gl) {
+        temp = TextureLoader.loadTexture(new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Maps\\door_mtl1_diffcol.jpg"));
         Spaceship = ModelLoaderOBJ.LoadModel(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Wraith_Raider_Starship.obj",
                 Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Wraith_Raider_Starship.mtl", gl);
         if (Spaceship == null) {
@@ -26,7 +27,6 @@ public class Player {
     }
 
     public static void drawPlayer(GL2 gl){
-        temp = TextureLoader.loadTexture(new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Maps\\door_mtl1_diffcol.jpg"));
         temp.enable(gl);
         temp.bind(gl);
         Spaceship.opengldraw(gl);

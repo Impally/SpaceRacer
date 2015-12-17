@@ -2,7 +2,9 @@ package Environment;
 
 import Utils.GLModel;
 import Utils.ModelLoaderOBJ;
+import Utils.TextureLoader;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -12,30 +14,28 @@ import java.nio.file.Paths;
  */
 public class Asteroids {
 
-    public static File myFile;
+
     public static GLModel astOBJ = null;
+    public static Texture temp = null;
+
+
     public static Boolean loadModels(GL2 gl) {
+        temp = TextureLoader.loadTexture(
+                new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() +
+                        "\\Maps\\SmoothRock.jpg"));
 
-        myFile = new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Asteroid.obj");
-        String objPath = myFile.toString();
-        myFile = new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Asteroid.mtl");
-        String mtlPath = myFile.toString();
-
-
-        System.out.println(objPath);
-        System.out.println(mtlPath);
-
-        astOBJ = ModelLoaderOBJ.LoadModel(objPath,mtlPath,gl);
+        astOBJ = ModelLoaderOBJ.LoadModel(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Asteroid.obj",Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Asteroid.mtl",gl);
         if (astOBJ == null) {
             return false;
         }
         return true;
     }
 
-    public static void drawPlayer(GL2 gl){
+    public static void drawAsteroid(GL2 gl, float r, int longs, int lats){
+
+        temp.enable(gl);
+        temp.bind(gl);
         astOBJ.opengldraw(gl);
-        gl.glFlush();
+        temp.disable(gl);
     }
-
-
 }
