@@ -15,7 +15,6 @@ public class MtlLoader {
 		public float[] Ka = new float[3];
 		public float[] Kd = new float[3];
 		public float[] Ks = new float[3];
-		public String Kd_map = null;
 	}
 	
 	public MtlLoader(BufferedReader ref, String pathtoimages) {
@@ -61,17 +60,6 @@ public class MtlLoader {
 			}
 		}
 		return returnfloat;
-	}
-
-	public String getMap(String namepass){
-		String returnStr = null;
-		for (int i=0; i < Materials.size(); i++) {
-			mtl tempmtl = (mtl)Materials.get(i);
-			if (tempmtl.name.matches(namepass)) {
-				returnStr = tempmtl.Kd_map;
-			}
-		}
-		return returnStr;
 	}
 	
 	public float[] getKs(String namepass) {
@@ -142,12 +130,6 @@ public class MtlLoader {
 					if (newline.charAt(0) == 'd') {
 						String[] coordstext = newline.split("\\s+");
 						matset.d = Float.valueOf(coordstext[1]).floatValue();
-					}
-					if(newline.charAt(0) == 'm' && newline.charAt(1) == 'a' && newline.charAt(2) == 'p')
-					{
-						String[] coordstext = newline.split("\\s+");
-						System.out.println(coordstext);
-						matset.Kd_map = coordstext[1];
 					}
 				}
 			}

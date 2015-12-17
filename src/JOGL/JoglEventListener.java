@@ -19,7 +19,7 @@ public class JoglEventListener implements GLEventListener{
     int[] vPort = new int[4];
     //Class to load texture and texture for Environment.Skybox
     private Skybox current_skybox = null;
-    private final float skybox_size = 500.0f;
+    private final float skybox_size = 1000.0f;
     private final String skybox_name = "";
     Keyboard keyboard = null;
 
@@ -37,6 +37,7 @@ public class JoglEventListener implements GLEventListener{
     public final static float mv_speed = 0.4f;
 
     private GLU glu = new GLU();
+    Texture temp = null;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -51,7 +52,6 @@ public class JoglEventListener implements GLEventListener{
         current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
-        keyboard = new Keyboard();
         Player.loadModels(gl);
     }
 
@@ -118,10 +118,17 @@ public class JoglEventListener implements GLEventListener{
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
         gl.glTranslatef(0,0,-1);
-        gl.glTranslatef(pos_x, pos_y, 0);
-        current_skybox.draw(gl, skybox_size);
-        gl.glScaled(0.1f,0.1f,0.1f);
+        temp = TextureLoader.loadTexture(new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Maps\\door_mtl1_diffcol.jpg"));
+        temp.enable(gl);
+        temp.bind(gl);
+        gl.glScaled(0.01f,0.01f,0.01f);
+        gl.glRotatef(90f, 1f, 0f, 0f);
         Player.drawPlayer(gl);
+        temp.disable(gl);
+        gl.glRotatef(-90f, 1f, 0f, 0f);
+        gl.glScaled(100f,100f,100f);
+        gl.glTranslatef(pos_x, pos_y, 1);
+        current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
     }
 

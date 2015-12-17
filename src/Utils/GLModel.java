@@ -279,13 +279,6 @@ public class GLModel{
 			if (i == nextmat) {
 					gl.glEnable(GL2.GL_COLOR_MATERIAL);
 					gl.glColor4f((materials.getKd(nextmatname))[0],(materials.getKd(nextmatname))[1],(materials.getKd(nextmatname))[2],(materials.getd(nextmatname)));
-                    isTextured = (materials.getMap(nextmatname) != null);
-                    System.out.println(isTextured);
-                    if(isTextured) {
-                        tex = TextureLoader.loadTexture(new File(Paths.get(".\\Models\\").toAbsolutePath().normalize().toString() + materials.getMap(nextmatname)));
-                        tex.enable(gl);
-                        tex.bind(gl);
-                    }
 				matcount++;
 				if (matcount < totalmats) {
 					nextmatnamearray = (String[])(mattimings.get(matcount));
@@ -330,15 +323,10 @@ public class GLModel{
 				float tempz = ((float[])vertexsets.get(tempfaces[w] - 1))[2];
 				gl.glVertex3f(tempx,tempy,tempz);
 			}
-			
-			
+            
 			//// Quad End Footer /////
 			gl.glEnd();
-            if(isTextured)
-            {
-                tex.disable(gl);
-            }
-			///////////////////////////
+            ///////////////////////////
 
 			
 			
@@ -347,6 +335,7 @@ public class GLModel{
 	}
     
     public void opengldraw(GL2 gl){
+
         gl.glCallList(objectlist);
         gl.glDisable(GL2.GL_COLOR_MATERIAL);
     }
