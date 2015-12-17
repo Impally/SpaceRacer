@@ -72,8 +72,8 @@
       <file leaf-file-name="JoglEventListener.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JOGL/JoglEventListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48521647">
-              <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.4588173">
+              <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -1076,13 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/Shader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Homework5/src/JoglEventListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.7054574">
@@ -1104,13 +1097,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/ModelLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1180,8 +1166,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JOGL/JoglEventListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48521647">
-          <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.4588173">
+          <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
           <folding />
         </state>
       </provider>
