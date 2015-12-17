@@ -11,9 +11,9 @@ public class Skybox {
     public static final int NUM_FACES = 6;
     public static final String PATH_TO_TEXTURES = Paths.get(".\\Textures").toAbsolutePath().normalize().toString();
     public static final String[] SKYBOX_SUFFIXES = {
-            "zpos.png", "zneg.png",
-            "xpos.png", "xneg.png",
-            "ypos.png", "yneg.png"
+            "GalaxyTex_PositiveZ.png", "GalaxyTex_NegativeZ.png",
+            "GalaxyTex_PositiveX.png", "GalaxyTex_NegativeX.png",
+            "GalaxyTex_NegativeY.png", "GalaxyTex_PositiveY.png"
     };
     protected Texture[] textures = new Texture[NUM_FACES];
     private String skybox_name = null;
