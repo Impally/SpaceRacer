@@ -45,63 +45,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Material.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Material.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/objects/Material.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.22070625">
-                  <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DrawPair.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/objects/DrawPair.java">
-              <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+                  <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ModelLoader.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ModelLoader.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Utils/ModelLoader.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CheckPoints.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Environment/CheckPoints.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Collision.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Utils/Collision.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Skybox.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Environment/Skybox.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+                <state vertical-scroll-proportion="0.2776886">
+                  <caret line="261" column="44" selection-start-line="261" selection-start-column="44" selection-end-line="261" selection-end-column="44" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="e#508#525#0" expanded="true" />
+                    <element signature="e#712#722#0" expanded="true" />
+                    <element signature="e#784#794#0" expanded="true" />
+                    <element signature="e#849#859#0" expanded="true" />
+                    <element signature="e#920#938#0" expanded="true" />
+                    <element signature="e#5599#5609#0" expanded="true" />
+                    <element signature="e#12181#12182#0" expanded="true" />
+                    <element signature="e#12227#12228#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -164,7 +132,6 @@
         <option value="$PROJECT_DIR$/src/ModelLoader.java" />
         <option value="$USER_HOME$/AppData/Local/Temp/Temp1_LMAGS2_EP22.zip/LMAGS2/src/com/shrikegames/jogl/util/OBJModelLoader.java" />
         <option value="$USER_HOME$/AppData/Local/Temp/Temp1_LMAGS2_EP22.zip/LMAGS2/src/com/shrikegames/jogl/util/DrawingUtil.java" />
-        <option value="$PROJECT_DIR$/src/Utils/ModelLoader.java" />
         <option value="$PROJECT_DIR$/src/Inputs/State/KeyState.java" />
         <option value="$PROJECT_DIR$/src/Inputs/Keyboard.java" />
         <option value="$PROJECT_DIR$/src/DrawGame.java" />
@@ -189,6 +156,7 @@
         <option value="$PROJECT_DIR$/src/objects/DrawPair.java" />
         <option value="$PROJECT_DIR$/src/JOGL/JOGLObject.java" />
         <option value="$PROJECT_DIR$/src/objects/Material.java" />
+        <option value="$PROJECT_DIR$/src/Utils/ModelLoader.java" />
       </list>
     </option>
   </component>
@@ -1156,14 +1124,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/ModelLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Game/DrawWorld.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1190,9 +1150,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/objects/Material.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22070625">
-          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/ModelLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2776886">
+          <caret line="261" column="44" selection-start-line="261" selection-start-column="44" selection-end-line="261" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#508#525#0" expanded="true" />
+            <element signature="e#712#722#0" expanded="true" />
+            <element signature="e#784#794#0" expanded="true" />
+            <element signature="e#849#859#0" expanded="true" />
+            <element signature="e#920#938#0" expanded="true" />
+            <element signature="e#5599#5609#0" expanded="true" />
+            <element signature="e#12181#12182#0" expanded="true" />
+            <element signature="e#12227#12228#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
