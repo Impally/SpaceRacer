@@ -118,13 +118,9 @@ public class JoglEventListener implements GLEventListener{
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
         gl.glTranslatef(0,0,-1);
-        temp = TextureLoader.loadTexture(new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Maps\\door_mtl1_diffcol.jpg"));
-        temp.enable(gl);
-        temp.bind(gl);
         gl.glScaled(0.01f,0.01f,0.01f);
         gl.glRotatef(90f, 1f, 0f, 0f);
         Player.drawPlayer(gl);
-        temp.disable(gl);
         gl.glRotatef(-90f, 1f, 0f, 0f);
         gl.glScaled(100f,100f,100f);
         gl.glTranslatef(pos_x, pos_y, 1);
