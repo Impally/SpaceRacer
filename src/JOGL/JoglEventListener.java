@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.nio.file.Paths;
 
+import Environment.Player;
 import Environment.Skybox;
 import Utils.TextureLoader;
 import com.jogamp.opengl.*;
@@ -51,6 +52,7 @@ public class JoglEventListener implements GLEventListener{
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
         keyboard = new Keyboard();
+        Player.loadModels(gl);
     }
 
     @Override
@@ -116,6 +118,8 @@ public class JoglEventListener implements GLEventListener{
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
         drawCube(gl);
+        gl.glTranslatef(0,0,-1);
+        Player.drawPlayer(gl);
         gl.glTranslatef(pos_x, pos_y, 0);
         current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
