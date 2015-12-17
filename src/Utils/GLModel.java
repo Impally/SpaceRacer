@@ -71,7 +71,7 @@ public class GLModel{
             String newline;
             while((newline = br.readLine()) != null){
               	linecounter++;
-                if(newline.length() > 0){
+                if(newline.length() > 0 && !(newline.equals(" "))){
                     newline = newline.trim();
                     
                     //LOADS VERTEX COORDINATES
