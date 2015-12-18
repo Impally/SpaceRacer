@@ -91,18 +91,25 @@ public class Asteroids {
         }
     }
 
-    public static boolean checkCollision(float camX, float camY, float camZ, Asteroids b) {
+    public static boolean checkCollision(float camX, float camY, float camZ) {
 
-        //check the X axis
-        if (Math.abs(camX - b.posX) < 2 + b.model.getXWidth()) {
-            //check the Y axis
-            if (Math.abs(camY - b.posY) < 2 + b.model.getYHeight()) {
-                //check the Z axis
-                if (Math.abs(camZ - b.posZ) < 2 + b.model.getZDepth()) {
-                    return true;
+        boolean collision = false;
+        for(int i = 0; i < asteroids.length; i++) {
+            //check the X axis
+            if (Math.abs(camX - asteroids[i].posX) <  asteroids[i].model.getXWidth()) {
+                //check the Y axis
+                if (Math.abs(camY - asteroids[i].posY) <  asteroids[i].model.getYHeight()) {
+                    //check the Z axis
+                    if (Math.abs(camZ - asteroids[i].posZ) <  asteroids[i].model.getZDepth()) {
+                        System.out.println("COLLISION DETECTED");
+                        collision =  true;
+                    }
                 }
             }
         }
-        return false;
+        return collision;
+
     }
+
+
 }
