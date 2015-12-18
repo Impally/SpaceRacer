@@ -32,15 +32,13 @@ public class JoglEventListener implements GLEventListener{
     public static float look_y = 0;
     public static float look_z = 0;
     public static float offset = 8.0f;
-    public static int mode = 0;
+    public static boolean mode;
     //camera speed
     public final static float rot_speed = 128.0f;
     public final static float mv_speed = 0.4f;
-
     private long start_time = System.currentTimeMillis();
-
     private GLU glu = new GLU();
-    Texture temp = null;
+    private static int tenth, second;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -53,7 +51,6 @@ public class JoglEventListener implements GLEventListener{
         // Initialize the texture loader and skybox.
         current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
-        gl.glLoadIdentity();
         loadObjects(gl);
     }
 
@@ -82,11 +79,32 @@ public class JoglEventListener implements GLEventListener{
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glPushMatrix();
         gl.glLoadIdentity();
-        long current_time = System.currentTimeMillis()-start_time;
-        int tenth = (int) (current_time%1000)/100;
-        int second = (int) current_time/1000;
+        updateState();
 
+        glu.gluLookAt( pos_x, pos_y, pos_z,
+                pos_x + look_x, pos_y + look_y, pos_z + look_z,
+                0.0f, 0.0f, 1.0f );
+        gl.glTranslatef(0,0,-1);
+        gl.glScaled(0.01f,0.01f,0.01f);
+        gl.glRotatef(90f, 1f, 0f, 0f);
+        Player.drawPlayer(gl);
+        gl.glRotatef(-90f, 1f, 0f, 0f);
+        gl.glScaled(100f,100f,100f);
+        Asteroids.drawAsteroidField(gl);
+        gl.glTranslatef(100, 50, 0);
+        Planets.drawSun(glu, gl);
+        Track.drawTrack(gl);
+        gl.glTranslatef(-100,-50,0);
+        gl.glTranslatef(pos_x, pos_y, 1);
+        current_skybox.draw(gl, skybox_size);
+        gl.glPopMatrix();
+        renderText(gl, second + "." + tenth);
+        glEnable2D(gl);
+        Hud.drawHud(gl, windowWidth, windowHeight);
+        glDisable2D(gl);
+    }
 
+    private void updateState() {
         // Update the camera state.
         if ( keyboard.keys[KeyEvent.VK_W] || keyboard.keys[KeyEvent.VK_S] ) {
             float normxy = (float) Math.sqrt( look_x * look_x + look_y * look_y );
@@ -120,27 +138,9 @@ public class JoglEventListener implements GLEventListener{
             pos_y += strafe_y / normxy * mv_speed;
         }
 
-        glu.gluLookAt( pos_x, pos_y, pos_z,
-                pos_x + look_x, pos_y + look_y, pos_z + look_z,
-                0.0f, 0.0f, 1.0f );
-        gl.glTranslatef(0,0,-1);
-        gl.glScaled(0.01f,0.01f,0.01f);
-        gl.glRotatef(90f, 1f, 0f, 0f);
-        Player.drawPlayer(gl);
-        gl.glRotatef(-90f, 1f, 0f, 0f);
-        gl.glScaled(100f,100f,100f);
-        Asteroids.drawAsteroidField(gl);
-        gl.glTranslatef(100, 50, 0);
-        Planets.drawSun(glu, gl);
-        Track.drawTrack(gl);
-        gl.glTranslatef(-100,-50,0);
-        gl.glTranslatef(pos_x, pos_y, 1);
-        current_skybox.draw(gl, skybox_size);
-        gl.glPopMatrix();
-        renderText(gl, second + "." + tenth);
-        glEnable2D(gl);
-        Hud.drawHud(gl, windowWidth, windowHeight);
-        glDisable2D(gl);
+        long current_time = System.currentTimeMillis()-start_time;
+        tenth = (int) (current_time%1000)/100;
+        second = (int) current_time/1000;
     }
 
     void glEnable2D(GL2 gl)

@@ -94,16 +94,15 @@ public class Asteroids {
     public static boolean checkCollision(float camX, float camY, float camZ, Asteroids b) {
 
         //check the X axis
-        if (Math.abs(camX - b.posX) < a.getSizeX() + b.getSizeX()) {
+        if (Math.abs(camX - b.posX) < 2 + b.model.getXWidth()) {
             //check the Y axis
-            if (Math.abs(a.getY() - b.getY()) < a.getSizeY() + b.getSizeY()) {
+            if (Math.abs(camY - b.posY) < 2 + b.model.getYHeight()) {
                 //check the Z axis
-                if (Math.abs(a.getZ() - b.getZ()) < a.getSizeZ() + b.getSizeZ()) {
+                if (Math.abs(camZ - b.posZ) < 2 + b.model.getZDepth()) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 }
