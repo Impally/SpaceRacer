@@ -39,6 +39,7 @@ public class JoglEventListener implements GLEventListener{
     private long start_time = System.currentTimeMillis();
     private GLU glu = new GLU();
     private static int tenth, second;
+    public static long current_time;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -80,7 +81,6 @@ public class JoglEventListener implements GLEventListener{
         gl.glPushMatrix();
         gl.glLoadIdentity();
         updateState();
-
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
@@ -91,9 +91,9 @@ public class JoglEventListener implements GLEventListener{
         gl.glRotatef(-90f, 1f, 0f, 0f);
         gl.glScaled(100f,100f,100f);
         Asteroids.drawAsteroidField(gl);
+        Ring.drawRings(gl);
         gl.glTranslatef(100, 50, 0);
         Planets.drawSun(glu, gl);
-        Track.drawTrack(gl);
         gl.glTranslatef(-100,-50,0);
         gl.glTranslatef(pos_x, pos_y, 1);
         current_skybox.draw(gl, skybox_size);
@@ -102,6 +102,8 @@ public class JoglEventListener implements GLEventListener{
         glEnable2D(gl);
         Hud.drawHud(gl, windowWidth, windowHeight);
         glDisable2D(gl);
+        Asteroids.checkCollision(pos_x,pos_y,pos_z);
+        Ring.checkCollision(pos_x,pos_y,pos_z);
     }
 
     private void updateState() {
@@ -138,7 +140,7 @@ public class JoglEventListener implements GLEventListener{
             pos_y += strafe_y / normxy * mv_speed;
         }
 
-        long current_time = System.currentTimeMillis()-start_time;
+        current_time = System.currentTimeMillis()-start_time;
         tenth = (int) (current_time%1000)/100;
         second = (int) current_time/1000;
     }
@@ -181,7 +183,7 @@ public class JoglEventListener implements GLEventListener{
         Player.loadModels(gl);
         Asteroids.initAsteroids(gl, 15);
         Lights.initLight(gl);
-        Track.initTrack(gl, 30);
+        Ring.initRings(gl, 30);
         Planets.loadSun(glu);
         Hud.init();
     }
