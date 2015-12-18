@@ -113,5 +113,23 @@ public class Ring {
         gl.glScalef(.25f, .25f,.25f);
     }
 
+    public static int getNumRings(){
+        return numRings;
+    }
+
+    public static Ring getRingByID(int i){
+        return rings[i];
+    }
+
+    public static float getXCoord(int i ){
+        return rings[i].posX;
+    }
+    public static float getYCoord(int i ){
+        return rings[i].posY;
+    }
+    public static float getZCoord(int i ){
+        return rings[i].posZ;
+    }
+
 
 }
