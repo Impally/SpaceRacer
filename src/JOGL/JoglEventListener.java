@@ -54,12 +54,9 @@ public class JoglEventListener implements GLEventListener{
         current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
-        Player.loadModels(gl);
-        Asteroids.initAsteroids(gl, 15);
-        Lights.initLight(gl);
-        Track.initTrack(gl, 30);
-        Planets.loadSun(glu);
+        loadObjects(gl);
     }
+
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
@@ -141,6 +138,9 @@ public class JoglEventListener implements GLEventListener{
         current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
         renderText(gl, second + "." + tenth);
+        glEnable2D(gl);
+        Hud.drawHud(gl, windowWidth, windowHeight);
+        glDisable2D(gl);
     }
 
     void glEnable2D(GL2 gl)
@@ -157,11 +157,11 @@ public class JoglEventListener implements GLEventListener{
     }
 
     public void renderText(GL2 gl, String Message){
-        TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 26), true, true);
-        renderer3.beginRendering(windowWidth-200, windowHeight-60);
+        TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 50), true, true);
+        renderer3.beginRendering(windowWidth, windowHeight);
         gl.glPushMatrix();
-        renderer3.setColor(1.0f, 1.0f, 1.0f, 1);
-        renderer3.draw(Message, 75, 60);
+        renderer3.setColor(.2352f, .53725f, .76078f, 1);
+        renderer3.draw(Message, (int) (windowWidth*.78) , (int) (windowHeight*.15) );
         gl.glFlush();
         gl.glPopMatrix();
         renderer3.endRendering();
@@ -177,4 +177,12 @@ public class JoglEventListener implements GLEventListener{
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
 
+    private void loadObjects(GL2 gl) {
+        Player.loadModels(gl);
+        Asteroids.initAsteroids(gl, 15);
+        Lights.initLight(gl);
+        Track.initTrack(gl, 30);
+        Planets.loadSun(glu);
+        Hud.init();
+    }
 }
