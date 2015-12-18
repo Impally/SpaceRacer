@@ -35,7 +35,7 @@ public class JoglEventListener implements GLEventListener{
     public static boolean mode;
     //camera speed
     public final static float rot_speed = 128.0f;
-    public final static float mv_speed = 0.4f;
+    public final static float mv_speed = 0.1f;
     private long start_time = System.currentTimeMillis();
     private GLU glu = new GLU();
     private static int tenth, second;
@@ -78,30 +78,26 @@ public class JoglEventListener implements GLEventListener{
 
         gl.glClear( GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT );
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
-        gl.glPushMatrix();
         gl.glLoadIdentity();
         updateState();
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
         gl.glTranslatef(0,0,-1);
-        gl.glScaled(0.01f,0.01f,0.01f);
-        gl.glRotatef(90f, 1f, 0f, 0f);
-        Player.drawPlayer(gl);
-        gl.glRotatef(-90f, 1f, 0f, 0f);
-        gl.glScaled(100f,100f,100f);
         Asteroids.drawAsteroidField(gl);
         Ring.drawRings(gl);
         gl.glTranslatef(100, 50, 0);
         Planets.drawSun(glu, gl);
         gl.glTranslatef(-100,-50,0);
-        gl.glTranslatef(pos_x, pos_y, 1);
+       // gl.glTranslatef(pos_x, pos_y, 1);
         current_skybox.draw(gl, skybox_size);
-        gl.glPopMatrix();
         renderText(gl, second + "." + tenth);
-        glEnable2D(gl);
-        Hud.drawHud(gl, windowWidth, windowHeight);
-        glDisable2D(gl);
+        if(!mode){
+            glEnable2D(gl);
+            Hud.drawHud(gl, windowWidth, windowHeight);
+            glDisable2D(gl);
+        }else{Player.drawPlayer(gl);}
+        gl.glPopMatrix();
         Asteroids.checkCollision(pos_x,pos_y,pos_z);
         Ring.checkCollision(pos_x,pos_y,pos_z);
     }
@@ -117,10 +113,8 @@ public class JoglEventListener implements GLEventListener{
 
         if ( keyboard.keys[KeyEvent.VK_R] ) {
             pos_z += mv_speed;
-            if (pos_z > 50) pos_z = 50;
         } else if ( keyboard.keys[KeyEvent.VK_F] ) {
             pos_z -= mv_speed;
-            if (pos_z < 0.1) pos_z = 0.1f;
         }
 
         if ( keyboard.keys[KeyEvent.VK_A] || keyboard.keys[KeyEvent.VK_D] ) {

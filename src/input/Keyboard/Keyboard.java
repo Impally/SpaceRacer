@@ -3,6 +3,7 @@ package input.Keyboard;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Environment.Player;
 import JOGL.JoglEventListener;
 import input.state.State;
 
@@ -50,7 +51,13 @@ public class Keyboard implements KeyListener {
 
         if(KeyEvent.VK_ESCAPE == e.getKeyChar())
         {System.exit(0);}else if('m' == e.getKeyChar()){
-            JoglEventListener.mode = JoglEventListener.mode ^ true;}
+            JoglEventListener.mode = JoglEventListener.mode ^ true;
+        if(JoglEventListener.mode)
+        {
+            Player.pos_x = JoglEventListener.pos_x;
+            Player.pos_y = JoglEventListener.pos_y;
+            Player.pos_z = JoglEventListener.pos_z;}
+        }
         else if (keyCode > 0 && keyCode < KEY_COUNT) {keys[keyCode] = true;}
 
     }
