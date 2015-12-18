@@ -1,15 +1,16 @@
 package JOGL;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.nio.file.Paths;
 
-import Environment.Player;
-import Environment.Skybox;
+import Environment.*;
 import Utils.TextureLoader;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import input.Keyboard.Keyboard;
 
@@ -36,6 +37,8 @@ public class JoglEventListener implements GLEventListener{
     public final static float rot_speed = 128.0f;
     public final static float mv_speed = 0.4f;
 
+    private long start_time = System.currentTimeMillis();
+
     private GLU glu = new GLU();
     Texture temp = null;
 
@@ -43,7 +46,6 @@ public class JoglEventListener implements GLEventListener{
     public void init(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         gl.glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-        gl.glColor3f( 1.0f, 1.0f, 1.0f );
         gl.glClearDepth( 1.0f );
         gl.glEnable( GL.GL_DEPTH_TEST );
         gl.glDepthFunc( GL.GL_LEQUAL );
@@ -53,6 +55,10 @@ public class JoglEventListener implements GLEventListener{
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
         Player.loadModels(gl);
+        Asteroids.initAsteroids(gl, 15);
+        Lights.initLight(gl);
+        Track.initTrack(gl, 30);
+        Planets.loadSun(glu);
     }
 
     @Override
@@ -79,6 +85,9 @@ public class JoglEventListener implements GLEventListener{
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glPushMatrix();
         gl.glLoadIdentity();
+        long current_time = System.currentTimeMillis()-start_time;
+        int tenth = (int) (current_time%1000)/100;
+        int second = (int) current_time/1000;
 
 
         // Update the camera state.
@@ -123,9 +132,15 @@ public class JoglEventListener implements GLEventListener{
         Player.drawPlayer(gl);
         gl.glRotatef(-90f, 1f, 0f, 0f);
         gl.glScaled(100f,100f,100f);
+        Asteroids.drawAsteroidField(gl);
+        gl.glTranslatef(100, 50, 0);
+        Planets.drawSun(glu, gl);
+        Track.drawTrack(gl);
+        gl.glTranslatef(-100,-50,0);
         gl.glTranslatef(pos_x, pos_y, 1);
         current_skybox.draw(gl, skybox_size);
         gl.glPopMatrix();
+        renderText(gl, second + "." + tenth);
     }
 
     void glEnable2D(GL2 gl)
@@ -141,6 +156,16 @@ public class JoglEventListener implements GLEventListener{
         gl.glLoadIdentity();
     }
 
+    public void renderText(GL2 gl, String Message){
+        TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 26), true, true);
+        renderer3.beginRendering(windowWidth-200, windowHeight-60);
+        gl.glPushMatrix();
+        renderer3.setColor(1.0f, 1.0f, 1.0f, 1);
+        renderer3.draw(Message, 75, 60);
+        gl.glFlush();
+        gl.glPopMatrix();
+        renderer3.endRendering();
+    }
     void glDisable2D(GL2 gl)
     {
         gl.glMatrixMode(gl.GL_PROJECTION);

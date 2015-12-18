@@ -82,6 +82,7 @@ public class Skybox {
             gl.glVertex3f(depth[keys[j*12+i]], depth[keys[j*12+i + 1]], depth[keys[j*12+i + 2]]);
         }
         gl.glEnd();
+        textures[j].disable(gl);
     }
     }
 }

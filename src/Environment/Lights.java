@@ -39,7 +39,6 @@ public class Lights {
         gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_AMBIENT, colorGray,1 );
         gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_DIFFUSE, colorGray,1 );
         gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPECULAR, colorWhite,1 );
-        gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPECULAR, colorRed,1 );
         //
         gl.glLightf( GL2.GL_LIGHT1, GL2.GL_CONSTANT_ATTENUATION, 0.2f );
 
@@ -48,11 +47,13 @@ public class Lights {
         //
         // Position and direction
         float posLight2[] = { .5f, 1.f, 3.f, 0.0f };
+        float spotDirection2[] = {-1.0f, -1.0f, 0f};
         gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_POSITION, posLight2,1 );
         //
         gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_AMBIENT, colorGray,1 );
         gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_DIFFUSE, colorGray,1 );
         gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_SPECULAR, colorWhite,1 );
+        gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPOT_DIRECTION, spotDirection2,1 );
         //
         gl.glLightf( GL2.GL_LIGHT2, GL2.GL_CONSTANT_ATTENUATION, 0.8f );
     }

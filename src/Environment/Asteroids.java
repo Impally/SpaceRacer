@@ -17,7 +17,7 @@ public class Asteroids {
 
 
 
-    private static Texture temp = null;
+    private static Texture astTex;
     private static Asteroids[] asteroids;
     private static int maxAsteroids;
     private float posX, posY, posZ, vecX,vecY,vecZ,rotX,rotY,rotZ;
@@ -58,9 +58,9 @@ public class Asteroids {
 
 
     public static void  loadTextures() {
-        temp = TextureLoader.loadTexture(
+        astTex = TextureLoader.loadTexture(
                 new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() +
-                        "\\Maps\\PerforatedRock.jpg"));
+                        "\\Maps\\MoonAsteroid.jpg"));
     }
 
     public static GLModel randomModel(GL2 gl, int rand)
@@ -76,13 +76,13 @@ public class Asteroids {
 
     public static void drawAsteroidField(GL2 gl){
 
-        temp.enable(gl);
-        temp.bind(gl);
+        astTex.enable(gl);
+        astTex.bind(gl);
         for(int i = 0; i < maxAsteroids; i++) {
             gl.glTranslatef(asteroids[i].posX,asteroids[i].posY,asteroids[i].posZ);
             asteroids[i].model.opengldraw(gl);
             gl.glTranslatef(-asteroids[i].posX,-asteroids[i].posY,-asteroids[i].posZ);
         }
-        temp.disable(gl);
+        astTex.disable(gl);
     }
 }

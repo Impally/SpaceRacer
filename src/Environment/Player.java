@@ -13,8 +13,8 @@ import java.nio.file.Paths;
  * Created by rodge on 12/16/2015.
  */
 public class Player {
-    public static GLModel Spaceship = null;
-    public static Texture temp = null;
+    public static GLModel Spaceship;
+    public static Texture temp;
 
     public static Boolean loadModels(GL2 gl) {
         temp = TextureLoader.loadTexture(new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() + "\\Maps\\door_mtl1_diffcol.jpg"));
