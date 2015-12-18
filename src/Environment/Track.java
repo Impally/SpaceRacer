@@ -16,9 +16,6 @@ public class Track {
 
     public static void drawTrack(GL2 gl){
 
-        for(int i = 1; i < numRings; i++){
-                Ring.drawRing(i,gl);
-        }
 
     }
 
