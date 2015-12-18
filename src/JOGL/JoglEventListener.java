@@ -54,12 +54,9 @@ public class JoglEventListener implements GLEventListener{
         current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         gl.glLoadIdentity();
-        Player.loadModels(gl);
-        Asteroids.initAsteroids(gl, 15);
-        Lights.initLight(gl);
-        Track.initTrack(gl, 30);
-        Planets.loadSun(glu);
+        loadObjects(gl);
     }
+
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
@@ -177,4 +174,11 @@ public class JoglEventListener implements GLEventListener{
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
 
+    private void loadObjects(GL2 gl) {
+        Player.loadModels(gl);
+        Asteroids.initAsteroids(gl, 15);
+        Lights.initLight(gl);
+        Track.initTrack(gl, 30);
+        Planets.loadSun(glu);
+    }
 }
