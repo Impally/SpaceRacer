@@ -120,6 +120,10 @@ public class JoglEventListener implements GLEventListener{
         {
             gameOver(gl);
         }
+        if(Planets.checkCollision(pos_x,pos_y,pos_z))
+        {
+            gameOver(gl);
+        }
 
     }
 
