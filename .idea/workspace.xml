@@ -31,7 +31,8 @@
                 <state vertical-scroll-proportion="0.0">
                   <caret line="132" column="21" selection-start-line="132" selection-start-column="21" selection-end-line="132" selection-end-column="21" />
                   <folding>
-                    <element signature="imports" expanded="true" />
+                    <element signature="e#544#545#0" expanded="false" />
+                    <element signature="e#574#575#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -43,7 +44,8 @@
                 <state vertical-scroll-proportion="0.0">
                   <caret line="289" column="12" selection-start-line="289" selection-start-column="12" selection-end-line="289" selection-end-column="12" />
                   <folding>
-                    <element signature="imports" expanded="true" />
+                    <element signature="e#9528#9529#0" expanded="false" />
+                    <element signature="e#9559#9560#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -72,8 +74,8 @@
           <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.56179774">
-                  <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+                <state vertical-scroll-proportion="0.4213483">
+                  <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="32" selection-end-column="29" />
                   <folding />
                 </state>
               </provider>
@@ -95,11 +97,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Planets.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Planets.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Environment/Planets.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="0" column="20" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+                <state vertical-scroll-proportion="0.6187801">
+                  <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -117,10 +119,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="JoglEventListener.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="JoglEventListener.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/JOGL/JoglEventListener.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6789727">
+                <state vertical-scroll-proportion="0.0">
                   <caret line="137" column="26" selection-start-line="137" selection-start-column="26" selection-end-line="137" selection-end-column="26" />
                   <folding />
                 </state>
@@ -195,11 +197,11 @@
         <option value="$PROJECT_DIR$/src/Utils/MtlLoader.java" />
         <option value="$PROJECT_DIR$/src/Utils/GLModel.java" />
         <option value="$PROJECT_DIR$/src/Environment/Skybox.java" />
-        <option value="$PROJECT_DIR$/src/Environment/Planets.java" />
         <option value="$PROJECT_DIR$/src/Environment/Player.java" />
         <option value="$PROJECT_DIR$/src/Environment/Lights.java" />
         <option value="$PROJECT_DIR$/src/Environment/Asteroids.java" />
         <option value="$PROJECT_DIR$/src/JOGL/JoglEventListener.java" />
+        <option value="$PROJECT_DIR$/src/Environment/Planets.java" />
       </list>
     </option>
   </component>
@@ -1046,7 +1048,7 @@
         <state vertical-scroll-proportion="0.48154092">
           <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1056,7 +1058,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="132" column="21" selection-start-line="132" selection-start-column="21" selection-end-line="132" selection-end-column="21" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#544#545#0" expanded="false" />
+            <element signature="e#574#575#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1066,7 +1069,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="289" column="12" selection-start-line="289" selection-start-column="12" selection-end-line="289" selection-end-column="12" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#9528#9529#0" expanded="false" />
+            <element signature="e#9559#9560#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1099,16 +1103,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Environment/Planets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="20" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/input/Keyboard/Keyboard.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1133,19 +1127,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4213483">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="32" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/JOGL/JoglEventListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6789727">
+        <state vertical-scroll-proportion="0.0">
           <caret line="137" column="26" selection-start-line="137" selection-start-column="26" selection-end-line="137" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/Environment/Planets.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56179774">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
-          <folding />
+        <state vertical-scroll-proportion="0.6187801">
+          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
