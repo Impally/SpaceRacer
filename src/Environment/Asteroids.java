@@ -22,13 +22,19 @@ public class Asteroids {
     private static Asteroids[] asteroids;
     private static int maxAsteroids;
     private float posX, posY, posZ, vecX, vecY, vecZ, rotX, rotY, rotZ;
+    private float opX,opY,opZ;
     private GLModel model;
     private Texture tex;
+    private boolean draw;
+    private static float drawDistance = 100;
 
     Asteroids(float posX, float posY, float posZ, float vecX, float vecY, float vecZ, float rotX, float rotY, float rotZ, GLModel model, Texture tex) {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
+        this.opX=posX;
+        this.opY=posY;
+        this.opZ=posZ;
         this.vecX = vecX;
         this.vecY = vecY;
         this.vecZ = vecZ;
@@ -37,20 +43,26 @@ public class Asteroids {
         this.rotZ = rotZ;
         this.model = model;
         this.tex = tex;
+        this.draw = true;
     }
 
     public static void initAsteroids(GL2 gl, int numAsteroids) {
+
+        int randDist = 50;
         loadTextures();
         maxAsteroids = numAsteroids;
-        asteroids = new Asteroids[maxAsteroids];
+        if(asteroids != null)
+            asteroids = null;
+        else
+            asteroids = new Asteroids[maxAsteroids];
 
 
         for (int i = 0; i < maxAsteroids; i++) {
-
+            int ringNum = Rand.randInt(0, Ring.getNumRings() - 1);
 
             asteroids[i] = new Asteroids(
-                    Rand.randInt(0, 15), Rand.randInt(0, 15), Rand.randInt(0, 15),
-                    0, 0, 0,
+                    Rand.randInt(-randDist, randDist),Rand.randInt(-randDist, randDist), Rand.randRange(randDist - 10, randDist),
+                    Ring.getXCoord(ringNum),Ring.getYCoord(ringNum),Ring.getZCoord(ringNum),
                     Rand.randInt(0, 5), Rand.randInt(0, 5), Rand.randInt(0, 5),
                     randomModel(gl), loadTextures());
         }
@@ -75,20 +87,62 @@ public class Asteroids {
 
     }
 
+    public void setPOS(float x, float y, float z){
+        this.posX=x;
+        this.posY=y;
+        this.posZ=z;
+    }
+
 
     public static void drawAsteroidField(GL2 gl) {
 
+        float speedX= .1f;
+        float speedY = .1f;
+        float speedZ= .1f;
 
         for (int i = 0; i < maxAsteroids; i++) {
-            asteroids[i].tex.enable(gl);
-            asteroids[i].tex.bind(gl);
-            gl.glTranslatef(asteroids[i].posX, asteroids[i].posY, asteroids[i].posZ);
+            if(asteroids[i].draw) {
 
-            asteroids[i].model.opengldraw(gl);
+                if (asteroids[i].vecX < asteroids[i].opX)
+                    speedX *= -1;
+                if (asteroids[i].vecY < asteroids[i].opY)
+                    speedY *= -1;
+                if (asteroids[i].vecZ < asteroids[i].opZ)
+                    speedZ *= -1;
 
-            gl.glTranslatef(-asteroids[i].posX, -asteroids[i].posY, -asteroids[i].posZ);
-            asteroids[i].tex.disable(gl);
+
+                asteroids[i].setPOS(asteroids[i].posX += speedX,
+                        asteroids[i].posY += speedY,
+                        asteroids[i].posZ += speedZ);
+            }
         }
+        for (int i = 0; i < maxAsteroids; i++) {
+            if(asteroids[i].draw) {
+                asteroids[i].tex.enable(gl);
+                asteroids[i].tex.bind(gl);
+                gl.glTranslatef(asteroids[i].posX, asteroids[i].posY, asteroids[i].posZ);
+
+                asteroids[i].model.opengldraw(gl);
+
+                gl.glTranslatef(-asteroids[i].posX, -asteroids[i].posY, -asteroids[i].posZ);
+                asteroids[i].tex.disable(gl);
+                if(Math.abs(asteroids[i].posX) > drawDistance)
+                    if(Math.abs(asteroids[i].posY) > drawDistance)
+                        if(Math.abs(asteroids[i].posZ) > drawDistance)
+                            asteroids[i].draw=false;
+
+            }
+        }
+//        boolean reInit = true;
+//        for(int i = 0; i < maxAsteroids;i++){
+//            if(asteroids[i].draw==true){
+//                reInit=false;
+//            }
+//        }
+//        if(reInit) {
+//            asteroids=null;
+//            initAsteroids(gl, maxAsteroids);
+//        }
     }
 
     public static boolean checkCollision(float camX, float camY, float camZ) {
