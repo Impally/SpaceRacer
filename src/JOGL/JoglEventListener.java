@@ -35,11 +35,14 @@ public class JoglEventListener implements GLEventListener{
     public static boolean mode;
     //camera speed
     public final static float rot_speed = 128.0f;
-    public final static float mv_speed = 0.1f;
+    public final static float mv_speed = 0.001f;
+    private static float accelx, accely, accelz;
     private long start_time = System.currentTimeMillis();
     private GLU glu = new GLU();
     private static int tenth, second;
     public static long current_time;
+    private static int score;
+    private boolean gameOver;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -53,6 +56,8 @@ public class JoglEventListener implements GLEventListener{
         current_skybox = new Skybox(skybox_name);
         gl.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
         loadObjects(gl);
+        score = 0;
+        gameOver = false;
     }
 
 
@@ -83,39 +88,62 @@ public class JoglEventListener implements GLEventListener{
         glu.gluLookAt( pos_x, pos_y, pos_z,
                 pos_x + look_x, pos_y + look_y, pos_z + look_z,
                 0.0f, 0.0f, 1.0f );
-        gl.glTranslatef(0,0,-1);
-        Asteroids.drawAsteroidField(gl);
-        Ring.drawRings(gl);
-        gl.glTranslatef(100, 50, 0);
-        Planets.drawSun(glu, gl);
-        gl.glTranslatef(-100,-50,0);
-       // gl.glTranslatef(pos_x, pos_y, 1);
-        current_skybox.draw(gl, skybox_size);
-        renderText(gl, second + "." + tenth);
         if(!mode){
+            gl.glTranslatef(0,0,-1);
+            Asteroids.drawAsteroidField(gl);
+            Ring.drawRings(gl);
+            gl.glTranslatef(100, 50, 0);
+            Planets.drawSun(glu, gl, 100f, 50f, 100f);
+            gl.glTranslatef(-100,-50,0);
+            gl.glTranslatef(pos_x, pos_y, pos_z);
+            current_skybox.draw(gl, skybox_size);
+            renderText(gl, second + "." + tenth, (int) (windowWidth*.78), (int) (windowHeight*.15) );
+            renderText(gl, Integer.toString(score), (int) (windowWidth*.9), (int) (windowHeight*.85));
             glEnable2D(gl);
             Hud.drawHud(gl, windowWidth, windowHeight);
             glDisable2D(gl);
-        }else{Player.drawPlayer(gl);}
+        }else{Player.drawPlayer(gl, pos_x, pos_y, pos_z);}
         gl.glPopMatrix();
-        Asteroids.checkCollision(pos_x,pos_y,pos_z);
-        Ring.checkCollision(pos_x,pos_y,pos_z);
+        if(Asteroids.checkCollision(pos_x,pos_y,pos_z))
+        {
+            gameOver = true;
+        }
+        if(Ring.checkCollision(pos_x,pos_y,pos_z))
+        {
+            score += 1;
+            if(score == 10)
+            {
+              gameOver = true;
+            }
+        }
+        if(gameOver)
+        {
+            gameOver(gl);
+        }
+
     }
 
     private void updateState() {
         // Update the camera state.
+        float normxy = 1;
         if ( keyboard.keys[KeyEvent.VK_W] || keyboard.keys[KeyEvent.VK_S] ) {
-            float normxy = (float) Math.sqrt( look_x * look_x + look_y * look_y );
+            normxy = (float) Math.sqrt( look_x * look_x + look_y * look_y );
             float multiplier = keyboard.keys[KeyEvent.VK_W] ? 1.0f : -1.0f;
-            pos_x += look_x / normxy * mv_speed * multiplier;
-            pos_y += look_y / normxy * mv_speed * multiplier;
+            accelx += multiplier;
+            if(accelx > 100){accelx = 100;}
+            if(accelx < -100){accelx = -100;}
         }
+        pos_x += look_x / normxy * mv_speed * accelx;
+        pos_y += look_y / normxy * mv_speed * accelx;
 
         if ( keyboard.keys[KeyEvent.VK_R] ) {
-            pos_z += mv_speed;
+            accelz += 1;
+            if(accelz > 100){accelz = 100;}
         } else if ( keyboard.keys[KeyEvent.VK_F] ) {
-            pos_z -= mv_speed;
+            accelz -=1;
+            if(accelz < -100){accelz = -100;}
         }
+        pos_z += mv_speed*accelz;
 
         if ( keyboard.keys[KeyEvent.VK_A] || keyboard.keys[KeyEvent.VK_D] ) {
             float theta = (float) Math.atan2( look_y, look_x );
@@ -128,7 +156,7 @@ public class JoglEventListener implements GLEventListener{
 
             float strafe_x = (float)( Math.cos( theta ) * Math.sin( phi ) );
             float strafe_y = (float)( Math.sin( theta ) * Math.sin( phi ) );
-            float normxy = (float) Math.sqrt( strafe_x * strafe_x + strafe_y * strafe_y );
+            normxy = (float) Math.sqrt( strafe_x * strafe_x + strafe_y * strafe_y );
 
             pos_x += strafe_x / normxy * mv_speed;
             pos_y += strafe_y / normxy * mv_speed;
@@ -152,12 +180,12 @@ public class JoglEventListener implements GLEventListener{
         gl.glLoadIdentity();
     }
 
-    public void renderText(GL2 gl, String Message){
+    public void renderText(GL2 gl, String Message, int x, int y){
         TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 50), true, true);
         renderer3.beginRendering(windowWidth, windowHeight);
         gl.glPushMatrix();
         renderer3.setColor(.2352f, .53725f, .76078f, 1);
-        renderer3.draw(Message, (int) (windowWidth*.78) , (int) (windowHeight*.15) );
+        renderer3.draw(Message, x, y);
         gl.glFlush();
         gl.glPopMatrix();
         renderer3.endRendering();
@@ -175,10 +203,34 @@ public class JoglEventListener implements GLEventListener{
 
     private void loadObjects(GL2 gl) {
         Player.loadModels(gl);
-        Asteroids.initAsteroids(gl, 15);
         Lights.initLight(gl);
         Ring.initRings(gl, 30);
+        Asteroids.initAsteroids(gl, 45);
         Planets.loadSun(glu);
         Hud.init();
+    }
+
+    private void gameOver(GL2 gl) {
+        if(score < 10)
+        {
+            TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 100), true, true);
+            renderer3.beginRendering(windowWidth, windowHeight);
+            gl.glPushMatrix();
+            renderer3.setColor(.2352f, .53725f, .76078f, 1);
+            renderer3.draw("Get Rekt", 0, windowHeight/2);
+            gl.glFlush();
+            gl.glPopMatrix();
+            renderer3.endRendering();
+        }else
+        {
+            TextRenderer renderer3 = new TextRenderer(new Font("Agency FB", Font.PLAIN, 100), true, true);
+            renderer3.beginRendering(windowWidth, windowHeight);
+            gl.glPushMatrix();
+            renderer3.setColor(.2352f, .53725f, .76078f, 1);
+            renderer3.draw("Victory is yours!  Escape to Quit", 0, windowHeight/2);
+            gl.glFlush();
+            gl.glPopMatrix();
+            renderer3.endRendering();
+        }
     }
 }

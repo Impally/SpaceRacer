@@ -31,11 +31,12 @@ public class Player {
         return true;
     }
 
-    public static void drawPlayer(GL2 gl){
+    public static void drawPlayer(GL2 gl, float x, float y, float z){
         gl.glPushMatrix();
         gl.glScaled(0.01f,0.01f,0.01f);
         gl.glRotatef(90f, 1f, 0f, 0f);
-        //gl.glTranslatef(pos_x,pos_y, pos_z);
+
+        gl.glTranslatef(pos_x - x,pos_y -y, pos_z - z);
         temp.enable(gl);
         temp.bind(gl);
         Spaceship.opengldraw(gl);
