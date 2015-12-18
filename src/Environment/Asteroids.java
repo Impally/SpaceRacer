@@ -6,6 +6,7 @@ import Utils.Rand;
 import Utils.TextureLoader;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
+import javafx.scene.Camera;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -17,66 +18,68 @@ import java.util.Random;
 public class Asteroids {
 
 
-
     private static Texture astTex;
     private static Asteroids[] asteroids;
     private static int maxAsteroids;
-    private float posX, posY, posZ, vecX,vecY,vecZ,rotX,rotY,rotZ;
+    private float posX, posY, posZ, vecX, vecY, vecZ, rotX, rotY, rotZ;
     private GLModel model;
     private Texture tex;
 
-    Asteroids(float posX, float posY,float posZ,float vecX,float vecY,float vecZ,float rotX,float rotY,float rotZ, GLModel model, Texture tex)
-    {
-        this.posX=posX; this.posY=posY; this.posZ=posZ;
-        this.vecX=vecX; this.vecY=vecY; this.vecZ=vecZ;
-        this.rotX=rotX; this.rotY=rotY; this.rotZ=rotZ;
-        this.model=model;
+    Asteroids(float posX, float posY, float posZ, float vecX, float vecY, float vecZ, float rotX, float rotY, float rotZ, GLModel model, Texture tex) {
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
+        this.vecX = vecX;
+        this.vecY = vecY;
+        this.vecZ = vecZ;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.model = model;
         this.tex = tex;
     }
 
-    public static void initAsteroids(GL2 gl, int numAsteroids){
+    public static void initAsteroids(GL2 gl, int numAsteroids) {
         loadTextures();
         maxAsteroids = numAsteroids;
         asteroids = new Asteroids[maxAsteroids];
 
 
-        for(int i = 0; i < maxAsteroids; i++){
+        for (int i = 0; i < maxAsteroids; i++) {
 
 
             asteroids[i] = new Asteroids(
-                    Rand.randInt(0,15),Rand.randInt(0,15),Rand.randInt(0,15),
-                    0,0,0,
-                    Rand.randInt(0,5),Rand.randInt(0,5),Rand.randInt(0,5),
-                    randomModel(gl),loadTextures());
+                    Rand.randInt(0, 15), Rand.randInt(0, 15), Rand.randInt(0, 15),
+                    0, 0, 0,
+                    Rand.randInt(0, 5), Rand.randInt(0, 5), Rand.randInt(0, 5),
+                    randomModel(gl), loadTextures());
         }
 
     }
 
 
-    public static Texture  loadTextures() {
+    public static Texture loadTextures() {
 
-            return TextureLoader.loadTexture(
-                    new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() +
-                            "\\Maps\\AsteroidTex_"+Rand.randInt(0,2)+".jpg"));
+        return TextureLoader.loadTexture(
+                new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() +
+                        "\\Maps\\AsteroidTex_" + Rand.randInt(0, 2) + ".jpg"));
 
     }
 
-    public static GLModel randomModel(GL2 gl)
-    {
+    public static GLModel randomModel(GL2 gl) {
         return ModelLoaderOBJ.LoadModel(
                 Paths.get(".\\Models").toAbsolutePath().normalize().toString()
-                        + "\\Asteroid\\Asteroid_"+Rand.randInt(1,6)+".obj",
+                        + "\\Asteroid\\Asteroid_" + Rand.randInt(1, 6) + ".obj",
                 Paths.get(".\\Models").toAbsolutePath().normalize().toString()
-                        + "\\Asteroid\\Asteroid_"+Rand.randInt(1,6)+".mtl",gl);
+                        + "\\Asteroid\\Asteroid_" + Rand.randInt(1, 6) + ".mtl", gl);
 
     }
 
 
-    public static void drawAsteroidField(GL2 gl){
+    public static void drawAsteroidField(GL2 gl) {
 
 
-
-        for(int i = 0; i < maxAsteroids; i++) {
+        for (int i = 0; i < maxAsteroids; i++) {
             asteroids[i].tex.enable(gl);
             asteroids[i].tex.bind(gl);
             gl.glTranslatef(asteroids[i].posX, asteroids[i].posY, asteroids[i].posZ);
@@ -86,5 +89,21 @@ public class Asteroids {
             gl.glTranslatef(-asteroids[i].posX, -asteroids[i].posY, -asteroids[i].posZ);
             asteroids[i].tex.disable(gl);
         }
+    }
+
+    public static boolean checkCollision(float camX, float camY, float camZ, Asteroids b) {
+
+        //check the X axis
+        if (Math.abs(camX - b.posX) < a.getSizeX() + b.getSizeX()) {
+            //check the Y axis
+            if (Math.abs(a.getY() - b.getY()) < a.getSizeY() + b.getSizeY()) {
+                //check the Z axis
+                if (Math.abs(a.getZ() - b.getZ()) < a.getSizeZ() + b.getSizeZ()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

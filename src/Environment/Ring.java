@@ -30,15 +30,15 @@ public class Ring {
     }
 
 
-    public static void loadTexture(GL2 gl){
+    public static void loadTexture(){
         tex = TextureLoader.loadTexture(
                 new File(Paths.get(".\\Models").toAbsolutePath().normalize().toString() +
-                        "\\Maps\\Ice.jpg"));
+                        "\\Maps\\ring_1.jpg"));
     }
 
     public static void initRings(GL2 gl, int num){
 
-        loadTexture(gl);
+        loadTexture();
         numRings=num;
         rings = new Ring[num];
         GLModel tempModel = ModelLoaderOBJ.LoadModel(
